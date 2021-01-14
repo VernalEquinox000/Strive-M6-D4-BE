@@ -44,7 +44,7 @@ const ArticleSchema = new Schema(
         },
         author: {
             name: {
-                type: String,
+                _id: Schema.Types.ObjectId, name: String, surname: String 
             },
             img: {
                 type: String
@@ -57,9 +57,11 @@ const ArticleSchema = new Schema(
             text: String,
             user: String,
             date: Date,   
-        }]
+        }],
+
+        
     },
     {timestamps: true}
 )
 
-module.exports = mongoose.model("Article", ArticleSchema)
+module.exports = model("Article", ArticleSchema)

@@ -4,6 +4,10 @@ const cors = require("cors")
 const listEndPoints = require("express-list-endpoints")
 const mongoose = require("mongoose")
 
+const articlesRouter = require("./services/articles")
+const authorsRouter = require("./services/authors")
+
+
 const {
   notFoundHandler,
   badRequestHandler,
@@ -14,7 +18,7 @@ const server = express()
 
 const port = process.env.PORT
 
-const articlesRouter = require("./services/articles")
+
 
 //const staticFolderPath = join(__dirname, "../public")
 //server.use(express.static(staticFolderPath))
