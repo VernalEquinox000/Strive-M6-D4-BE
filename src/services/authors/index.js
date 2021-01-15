@@ -43,6 +43,36 @@ authorsRouter.post("/", async (req, res, next) => {
   }
 })
 
+authorsRouter.put("/:id", async (req, res, next) => {
+  try {
+    const author = await AuthorSchema.findByIdAndUpdate(req.params.id, req.body)
+    if (author) {
+      res.send("Ok")
+    } else {
+      const error = new Error(`author with id ${req.params.id} not found`)
+      error.httpStatusCode = 404
+      next(error)
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
+authorsRouter.delete("/:id", async (req, res, next) => {
+  try {
+    const author = await AuthorSchema.findByIdAndDelete(req.params.id)
+    if (author) {
+      res.send("Deleted")
+    } else {
+      const error = new Error(`author with id ${req.params.id} not found`)
+      error.httpStatusCode = 404
+      next(error)
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
 
 
 module.exports = authorsRouter

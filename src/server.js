@@ -27,6 +27,7 @@ server.use(express.json())
 server.use(cors())
 
 server.use("/articles", articlesRouter)
+server.use("/authors", authorsRouter)
 
 // ERROR HANDLERS MIDDLEWARES
 server.use(badRequestHandler)

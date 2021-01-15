@@ -7,13 +7,16 @@ const AuthorSchema = new Schema(
         type: String,
         required:true,
         },
-    surname: {
+    img: {
         type: String,
-        required: true,
-    }
+        required:true,
+        }
+    
     },
 {
   timestamps:true
 })
 
-    module.exports = model("Author", AuthorSchema)
+const AuthorModel = model("Author", AuthorSchema);
+
+module.exports = AuthorModel;

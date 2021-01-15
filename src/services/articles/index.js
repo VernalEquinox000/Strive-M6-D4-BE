@@ -1,12 +1,13 @@
 const express = require("express")
 const mongoose = require("mongoose")
+const q2m = require("query-to-mongo")
 const ArticleModel = require("./schema")
 const ReviewModel = require("../reviews/schema")
 
 const articlesRouter = express.Router()
 
 //GET articles
-articlesRouter.get("/", async (req, res, next) => {
+/* articlesRouter.get("/", async (req, res, next) => {
   try {
     const articles = await ArticleModel.find()
     //also findOne or findById
@@ -14,14 +15,33 @@ articlesRouter.get("/", async (req, res, next) => {
   } catch (error) {
     next(error)
   }
+}) */
+articlesRouter.get("/", async (req, res, next) => {
+  try {
+    const query = q2m(req.query)
+    console.log(query)
+    const totArticles = await ArticleModel.countDocuments(query.criteria)
+
+    const articles = await ArticleModel.find(query.criteria, query.options.fields)
+      .skip(query.options.skip)
+      .limit(query.options.limit)
+      .sort(query.options.sort)
+      .populate("author", { _id: 0, name: 1, img: 1 })
+    res.send({links: query.links("/articles",totArticles), articles})
+  } catch (error) {
+    console.log(error)
+    next (error)
+  }
 })
+
+
 
 
 //GET /articles/:id
 articlesRouter.get("/:id", async (req, res, next) => {
   try {
     const id = req.params.id
-    const article = await ArticleModel.findById(id)
+    const article = await ArticleModel.findById(id).populate("author")
     if (article) {
       res.send(article)
     } else {

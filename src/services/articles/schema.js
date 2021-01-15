@@ -43,15 +43,11 @@ const ArticleSchema = new Schema(
             required: true,
         },
         author: {
-            name: {
-                _id: Schema.Types.ObjectId, name: String, surname: String 
-            },
-            img: {
-                type: String
-            },
-            cover: {
-                type: String,
-            }
+             type:Schema.Types.ObjectId,ref:"Author"
+        },
+        cover: {
+            type: String,
+            required: true,
         },
         reviews: [{
             text: String,
